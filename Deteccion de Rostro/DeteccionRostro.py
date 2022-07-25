@@ -1,11 +1,12 @@
 import cv2
 
-color_cuadro = (0, 255, 0)
-grosor_linea = 3
-
+color_cuadro_rostro = (0, 255, 0)
+color_cuadro_ojos = (0, 0, 255)
+grosor_linea_rostro = 2
+grosor_linea_ojos = 1
 
 # Metodo que dibuja cuadro encima de rostro
-def dibujar_cuadro_rostro(detectado, imagen, color: tuple, grosor):
+def dibujar_cuadro(detectado, imagen, color: tuple, grosor):
     for (x, y, ancho, largo) in detectado:
         cv2.rectangle(
             imagen, (x, y), (x + ancho, y + largo), color, thickness=grosor
@@ -23,6 +24,7 @@ capturador_video = cv2.VideoCapture(0)  # Selecciona el primer dispositivo (0) d
 validar_capturador(capturador_video)
 
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+ojos_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_eye_tree_eyeglasses.xml")
 
 while (capturador_video.isOpened()):
     is_exito, frame = capturador_video.read()
@@ -30,11 +32,12 @@ while (capturador_video.isOpened()):
 
     # Detecta los rostros de cada frame
     rostros_detectados = face_cascade.detectMultiScale(image=imagen_escala_gris, scaleFactor=1.3, minNeighbors=4)
-    dibujar_cuadro_rostro(rostros_detectados, frame, color_cuadro,
-                          grosor_linea)  # Dibuja en el face un cuadro con el color deseado
+    ojos_detectados = ojos_cascade.detectMultiScale(image=imagen_escala_gris, scaleFactor=1.3, minNeighbors=4)
+    dibujar_cuadro(rostros_detectados, frame, color_cuadro_rostro, grosor_linea_rostro)  # Dibuja en el face un cuadro con el color deseado
+    dibujar_cuadro(ojos_detectados, frame, color_cuadro_ojos, grosor_linea_ojos)
 
     if is_exito == True:
-        cv2.imshow('WebCam Rostros Detected', frame)
+        cv2.imshow('WebCam Rostro Ojos Detected', frame)
 
         if cv2.waitKey(
                 1) == 27:  # Cuando es letra usar cv2.waitKey(25) & 0xFF == ord('q'):, para usar mayusucula o minuscula juntos
