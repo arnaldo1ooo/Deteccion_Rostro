@@ -1,9 +1,9 @@
 import cv2
 
-color_cuadro_rostro = (0, 255, 0)
-color_cuadro_ojos = (0, 0, 255)
-grosor_linea_rostro = 2
-grosor_linea_ojos = 1
+COLOR_CUADRO_ROSTRO = (0, 255, 0)
+COLOR_CUADRO_OJOS = (0, 0, 255)
+GROSOR_LINEA_ROSTRO = 2
+GROSOR_LINEA_OJOS = 1
 
 # Metodo que dibuja cuadro encima de rostro
 def dibujar_cuadro(detectado, imagen, color: tuple, grosor):
@@ -33,8 +33,8 @@ while (capturador_video.isOpened()):
     # Detecta los rostros de cada frame
     rostros_detectados = face_cascade.detectMultiScale(image=imagen_escala_gris, scaleFactor=1.3, minNeighbors=4)
     ojos_detectados = ojos_cascade.detectMultiScale(image=imagen_escala_gris, scaleFactor=1.3, minNeighbors=4)
-    dibujar_cuadro(rostros_detectados, frame, color_cuadro_rostro, grosor_linea_rostro)  # Dibuja en el face un cuadro con el color deseado
-    dibujar_cuadro(ojos_detectados, frame, color_cuadro_ojos, grosor_linea_ojos)
+    dibujar_cuadro(rostros_detectados, frame, COLOR_CUADRO_ROSTRO, GROSOR_LINEA_ROSTRO)  # Dibuja en el face un cuadro con el color deseado
+    dibujar_cuadro(ojos_detectados, frame, COLOR_CUADRO_OJOS, GROSOR_LINEA_OJOS)
 
     if is_exito == True:
         cv2.imshow('WebCam Rostro Ojos Detected', frame)
