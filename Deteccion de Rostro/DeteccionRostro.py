@@ -28,6 +28,10 @@ ojos_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_eye_tr
 
 while (capturador_video.isOpened()):
     is_exito, frame = capturador_video.read()
+
+    # Agregar efecto espejo
+    frame = cv2.flip(frame, 1)
+
     imagen_escala_gris = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)  # Convierte imagen a escala de grises
 
     # Detecta los rostros de cada frame
